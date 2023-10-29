@@ -80,11 +80,11 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 CSRF_TRUSTED_ORIGINS = [
-    "https://web-production-9a7cf.up.railway.app",
+    "https://web-production-aec2.up.railway.app",
     "https://universityclinicqc.com",
 ]
 CORS_ALLOWED_ORIGINS = [
-    'https://web-production-9a7cf.up.railway.app',
+    'https://web-production-aec2.up.railway.app',
     'https://universityclinicqc.com',
 ]
 CORS_ALLOW_ALL_ORIGINS = True
