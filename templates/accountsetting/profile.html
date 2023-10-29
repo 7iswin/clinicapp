@@ -1,0 +1,113 @@
+{% extends 'index/home.html' %} 
+{% load static %} 
+{% block title %} 
+{% endblock title %} 
+{% block style %} 
+{% endblock style %} 
+{% block content %}
+<div class="content">
+  <div class="row">
+    <div class="col-sm-7 col-6">
+      <h4 class="page-title">My Profile</h4>
+    </div>
+    <div class="col-sm-5 col-6 text-end m-b-30">
+      <a
+        href="{% url 'account:edit_profile' %}"
+        class="btn btn-primary btn-rounded"
+        ><i class="fas fa-plus"></i> Edit Profile</a
+      >
+    </div>
+  </div>
+  <div class="card-box profile-header">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="profile-view">
+          <div class="profile-img-wrap">
+            <div class="profile-img">
+              <a href="#"
+                ><img class="avatar" src="{{user_model.profileimg.url}}" alt=""
+              /></a>
+            </div>
+          </div>
+          <div class="profile-basic">
+            <div class="row">
+              <div class="col-md-5">
+                <div class="profile-info-left">
+                  <h3 class="user-name m-t-0 mb-0">
+                    {{user_model.firstname|default:'Name'}}
+                    {{user_model.lastname}}
+                  </h3>
+                  <small class="text-muted"
+                    >{{user_model.position|default:'Position'}}</small
+                  >
+                  <div class="staff-id">
+                    {{user_model.userid|default:'EmployeeID'}}
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-7">
+                <ul class="personal-info">
+                  <li>
+                    <span class="title">City:</span>
+                    <span class="text">{{user_model.city|default:'City'}}</span>
+                  </li>
+                  <li>
+                    <span class="title">Address:</span>
+                    <span class="text"
+                      >{{user_model.address|default:'Address'}}
+                    </span>
+                  </li>
+                  <li>
+                    <span class="title">Age:</span>
+                    <span class="text">{{user_model.age|default:'age'}}</span>
+                  </li>
+                  <li>
+                    <span class="title">Birthday:</span>
+                    <span class="text"
+                      >{{user_model.bday|default:'Birthday'}}</span
+                    >
+                  </li>
+                  <li>
+                    <span class="title">Email:</span>
+                    <span class="text"
+                      >{{user_model.user.email|default:'Email'}}
+                    </span>
+                  </li>
+                  <li>
+                    <span class="title">Gender:</span>
+                    <span class="text"
+                      >{{user_model.gender|default:'Gender'}}</span
+                    >
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="profile-tabs">
+    <ul class="nav nav-tabs nav-tabs-bottom">
+      <li class="nav-item">
+        <a class="nav-link active" href="#about-cont" data-bs-toggle="tab"
+          >About</a
+        >
+      </li>
+      <li class="nav-item">
+        <a class="nav-link " href="#bottom-tab2" data-bs-toggle="tab">Profile</a>
+      </li>
+    </ul>
+    
+  </div>
+  <div class="tab-content">
+    <div class="tab-pane active" id="about-cont">i am {{user_model.firstname|default:''}} {{user_model.lastname}} {{user_model.age}} 
+      years old, {{user_model.gender}} position for the clinic{{user_model.position}} my Birthday is {{user_model.bday}} you can contact me on email:{{user_model.user.email}}
+    or phonenumber:{{user_model.phonenumber}}</div>
+    <div class="tab-pane active" id="bottom-tab2"></div>
+  </div>
+  
+</div>
+{% endblock content %} 
+{% block script %} 
+{% endblock script %}

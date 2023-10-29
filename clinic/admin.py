@@ -1,0 +1,1 @@
+from clinic.admins import account,forecast,log,patientrecord

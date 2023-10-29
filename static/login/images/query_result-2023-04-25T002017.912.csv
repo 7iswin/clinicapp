@@ -1,0 +1,113 @@
+﻿name,project_id,role,worktime,task_num,features,building_num
+AaAbrenica,1727,Filter,0.01,12,30,33
+AaAbrenica,1727,Labeler,0.27,31,371,405
+AgapitoHipolito,1682,Labeler,0.01,1,21,0
+Albeno Rosantina,1729,Checker,1.4,25,320,33
+Alvin Lopez,1518,Checker,0.41,3,47,36
+Alvin Lopez,1729,Checker,0.26,6,65,6
+AndreiRamirez,1727,Labeler,1.17,101,4170,4631
+AngelSamFrancisco,1727,Labeler,1.44,101,3365,3664
+ArchiePielago,1517,Checker,0.12,6,29,14
+ArchiePielago,1518,Checker,0.34,10,130,75
+ArchiePielago,1727,Filter,0.04,76,68,86
+ArchiePielago,1727,Labeler,0.94,149,6209,6864
+ArchiePielago,1729,Checker,0.12,5,35,5
+BenjaminSison,1727,Labeler,2.66,116,5053,5536
+Bernardo Dacles Jr.,1517,Checker,0.56,6,94,24
+Bernardo Dacles Jr.,1518,Checker,0.72,4,139,86
+Bernardo Dacles Jr.,1729,Checker,1.18,19,300,23
+Bryansangines,1727,Labeler,1.39,51,1907,2123
+CK_Angelo,1682,Labeler,2.47,63,2175,0
+CK_Angelo,1727,Filter,0.39,282,285,333
+CK_Angelo,1727,Labeler,1.69,104,3293,3683
+CzarVie,1727,Checker,6.01,1179,44313,49746
+DaileHarmonDeposoy,1727,Filter,0.84,801,793,995
+DaileHarmonDeposoy,1729,Checker,0.1,1,5,2
+DaisyJeleanDGotera,1729,Checker,1.74,5,55,8
+DarylKeithAlindajao,1729,Checker,0.09,1,5,1
+Dex,1729,Checker,0.04,1,5,1
+DukeJerryBonnieDBatayola,1729,Checker,3.44,26,142,32
+Emjay Garcia,1518,Checker,0.32,3,63,32
+Emjay Garcia,1729,Checker,0.78,7,115,8
+EvanBanaglorioso,1518,Checker,0.03,2,19,14
+EvanBanaglorioso,1729,Checker,1.01,6,91,8
+GT_DaN,1517,Checker,0.06,3,7,6
+GT_DaN,1729,Checker,0.29,4,25,4
+GT_Jcarl,1727,Labeler,0.14,13,499,532
+GT_Jcarl,1729,Checker,7.24,66,564,88
+GT_Mary,1727,Labeler,1,37,587,632
+GT_Mary,1729,Checker,5.2,16,157,17
+GT_swetzel,1727,Labeler,0.27,8,384,406
+GerardFaustinoMarin,1729,Checker,0.09,1,20,1
+JannaLeanneUrsos,1729,Checker,0.15,3,16,4
+JeanRoseMahinay,1727,Labeler,1.23,22,884,931
+JessaDomingo,1727,Filter,1.01,645,713,844
+JessaDomingo,1727,Labeler,0.17,12,442,473
+JessaDomingo,1729,Checker,0.03,1,5,1
+JohnVincentRayo,1729,Checker,0,1,5,1
+JohndellBonita,1727,Labeler,3.06,593,21124,22722
+JohndellBonita,1729,Checker,0.06,3,30,6
+JustinJucaban,1517,Checker,0.1,2,7,5
+JustinJucaban,1729,Checker,1.64,43,480,52
+KennethDelicana,1682,Checker,0.15,8,234,0
+MaricarGCaligagan,1727,Labeler,0.77,52,1753,1898
+MarkDenCrispinoBautista,1727,Filter,0.14,167,194,234
+MarkSolayao,1682,Labeler,0.17,4,69,0
+MatthewGarces,1729,Checker,1.33,11,94,17
+MichaelJohnTorres,1729,Checker,0.54,1,15,2
+MitzieGayCura,1727,Labeler,3.34,373,13775,15188
+MjDeLuna,1727,Labeler,2.2,232,8102,9171
+NaessMarieCarillo,1729,Checker,0.29,2,6,2
+NeilettePaciencia,1682,Labeler,3.39,48,1448,0
+NyzaNeilSSangines,1727,Labeler,1.55,66,2541,2713
+PAC_Genette,1727,Filter,0.17,231,314,372
+PAC_Genette,1727,Labeler,0.96,107,2570,2802
+PatrickJudeFerrariz,1729,Checker,0.87,18,178,19
+PortgasAce,1517,Checker,0.17,1,9,3
+PortgasAce,1518,Checker,1.39,7,130,88
+PortgasAce,1727,Filter,0.03,29,33,41
+PortgasAce,1727,Labeler,0.88,59,2186,2460
+R4VEN,1727,Labeler,0.45,42,1402,1551
+R4VEN,1729,Checker,0.35,10,39,11
+REMAPRILPENGRAS,1729,Checker,2.41,53,596,61
+RaizelGrey,1729,Checker,0.03,1,10,1
+RaymondCornelio,1517,Checker,0.42,1,16,3
+RaymondCornelio,1518,Checker,0.25,2,18,19
+RaymondCornelio,1682,Labeler,2.24,79,2521,0
+RaymondCornelio,1729,Checker,1.18,6,50,6
+ReyCharlDelaCruz,1518,Checker,0.22,3,57,44
+ReyCharlDelaCruz,1727,Labeler,0.3,24,874,965
+ReyCharlDelaCruz,1729,Checker,1.42,5,50,7
+Rj Paul,1727,Filter,0.78,1657,1873,2122
+Rj Paul,1727,Labeler,0,1,0,0
+ScheannenGeraldineDAtchico,1727,Filter,0.5,1029,1107,1373
+Sharon Ballados,1729,Checker,0.4,34,235,45
+Sheina Lyn Gaviola,1517,Checker,0.26,4,30,7
+Sheina Lyn Gaviola,1518,Checker,0.23,8,111,51
+TeomyrRea,1517,Checker,0.01,1,6,2
+TeomyrRea,1518,Checker,0.33,4,64,56
+TeomyrRea,1729,Checker,0.17,1,15,1
+The Walking Wards,1517,Checker,0.39,5,34,10
+The Walking Wards,1518,Checker,0.8,13,175,118
+The Walking Wards,1727,Filter,1.32,1607,1833,2191
+The Walking Wards,1727,Labeler,0.77,175,1130,1275
+The Walking Wards,1729,Checker,0.83,17,149,21
+Therencejohnjayme,1727,Filter,0.39,427,504,592
+Therencejohnjayme,1727,Labeler,2.01,321,12217,13403
+alyssadimatulac,1727,Labeler,0.48,30,1043,1091
+aprilmay,1727,Labeler,2.07,73,2863,3514
+dandor lopez,1729,Checker,0.14,5,30,5
+delrosariohappy,1517,Checker,0.7,21,225,54
+delrosariohappy,1729,Checker,2.51,61,1023,87
+edwardgarces,1727,Filter,0.04,97,77,100
+edwardgarces,1727,Labeler,0.55,56,2553,2753
+edwardgarces,1729,Checker,0.04,1,0,1
+markcorpus,1729,Checker,0.14,2,10,2
+melvintongcoRX,1727,Labeler,3.75,329,9972,10671
+mykel,1727,Labeler,3.17,477,15452,17613
+sebcatibog,1517,Checker,0.06,1,5,1
+sebcatibog,1518,Checker,0.06,2,33,12
+sebcatibog,1729,Checker,0.63,2,9,2
+totikcute,1517,Checker,0.03,1,4,1
+totikcute,1518,Checker,0.25,2,18,18
+totikcute,1727,Filter,0.66,795,926,1129

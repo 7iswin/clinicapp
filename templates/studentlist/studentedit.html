@@ -1,0 +1,328 @@
+{% extends 'index/home.html' %}
+{% load static %}
+{% block title %}
+{% endblock title %}
+{% block style %}
+
+{% endblock style %}
+
+{% block content %}
+<div class="content">
+    <div class="row">
+      <div class="col-sm-12">
+        <h4 class="page-title">Edit Information</h4>
+      </div>
+    </div>
+    <form method="POST" >
+      {% csrf_token %}
+      <div class="card-box">
+        <h3 class="card-title">Basic Informations</h3>
+        <div class="row">
+          <div class="col-md-12">
+           
+            <div class="card-box">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group form-focus">
+                    <label class="focus-label">Full Name</label>
+                    <input
+                      type="text"
+                      class="form-control floating"
+                      value="{{patient_model.PatientNAME|default:''}}"
+                      name = 'fullname'
+                    />
+                  </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <div class="form-group form-focus">
+                      <label class="focus-label">Age</label>
+                      <input
+                        type="text"
+                        class="form-control floating"
+                        value="{{patient_model.PatientAGE|default:''}}"
+                        name = 'age'
+                      />
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div
+                      class="form-group bg-hover form-focus select-focus"
+                    >
+                      <label class="focus-label">Course</label>
+                      <select name="course" class="select form-control floating">
+                        <option value={{patient_model.PatientCOURSE|default:''}} selected>{{patient_model.PatientCOURSE|default:''}}</option>
+                        {% for data in patient_course%}
+                        {% if data.PatientCOURSE != patient_model.PatientCOURSE %}
+                        <option value="{{data.PatientCOURSE|default:''}}">{{data.PatientCOURSE|default:''}}</option>
+                        {% endif %}
+                        {% endfor%}
+                      </select>
+                    </div>
+                  </div>
+                <div class="col-md-6">
+                  <div class="form-group form-focus">
+                    <label class="focus-label">Birth Date</label>
+                    {{patient_model.PatientBirthday|date:"d-m-Y"}}
+                    <div class="cal-icon">
+                      <input
+                        class="form-control floating datetimepicker"
+                        type="text"
+                        value="{{patient_model.PatientBirthday|date:"d-m-Y"}}"
+                        name="birthdate"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div
+                    class="form-group bg-hover form-focus select-focus"
+                  >
+                    <label class="focus-label">Year Level</label>
+                    <select name="yearlevel" class="select form-control floating">
+                        <option value={{patient_model.PatientYEARLEVEL}} selected>{{patient_model.PatientYEARLEVEL|default:''}}</option>
+                      {% for data in patient_year_level%}
+                      {% if data.PatientYEARLEVEL != patient_model.PatientYEARLEVEL %}
+                      <option value="{{data.PatientYEARLEVEL}}">{{data.PatientYEARLEVEL|default:''}}</option>
+                      {% endif %}
+                    {% endfor%}
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                    <div
+                      class="form-group bg-hover form-focus select-focus"
+                    >
+                      <label class="focus-label">Gendar</label>
+                      <select name="gender" class="select form-control floating">
+                        <option value={{patient_model.PatientGender}} selected>{{patient_model.PatientGender|default:''}}</option>
+                        {% for data in patient_gender %}
+                            {% if data.PatientGender != patient_model.PatientGender %}
+                                <option value="{{data.PatientGender}}">{{data.PatientGender}}</option>
+                            {%endif%}
+                        {% endfor %}
+                      </select>
+                    </div>
+                  </div>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-box">
+        <h3 class="card-title">Contact Informations</h3>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group form-focus">
+              <label class="focus-label">Address</label>
+              <input
+                type="text"
+                class="form-control floating"
+                value="{{patient_model.ContactInformationID.Address|default:''}}"
+                name="address"
+              />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group form-focus">
+              <label class="focus-label">State</label>
+              <input
+                type="text"
+                class="form-control floating"
+                value="{{patient_model.ContactInformationID.State|default:''}}"
+                name = "state"
+              />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group form-focus">
+              <label class="focus-label">Country</label>
+              <input
+                type="text"
+                class="form-control floating"
+                value="{{patient_model.ContactInformationID.Country|default:''}}"
+                name="country"
+              />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group form-focus">
+              <label class="focus-label">Pin Code</label>
+              <input
+                type="text"
+                class="form-control floating"
+                value="{{patient_model.ContactInformationID.Pincode|default:''}}"
+                name="pincode"
+              />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group form-focus">
+              <label class="focus-label">Phone Number</label>
+              <input
+                type="text"
+                class="form-control floating"
+                value="{{patient_model.ContactInformationID.Phonenumber|default:''}}"
+                name="phonenumber"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-box">
+        <h3 class="card-title">Medical History</h3>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group form-focus">
+              <label class="focus-label">Allergies</label>
+              <input
+                type="text"
+                class="form-control floating"
+                value="{{patient_model.MedicalHistoryID.Allergies|default:''}}"
+                name="allergies"
+              />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group form-focus">
+              <label class="focus-label">Medications</label>
+              <input
+                type="text"
+                class="form-control floating"
+                value="{{patient_model.MedicalHistoryID.Medications|default:''}}"
+                name="medications"
+              />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group form-focus">
+              <label class="focus-label">Medical Conditions</label>
+              <input
+                type="text"
+                class="form-control floating"
+                value="{{patient_model.MedicalHistoryID.Medicalconditions|default:''}}"
+                name="medicalconditions"
+              />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group form-focus">
+              <label class="focus-label">Family History</label>
+              <input
+                type="text"
+                class="form-control floating"
+                value="{{patient_model.MedicalHistoryID.Familyhistory|default:''}}"
+                name="familyhistory"
+              />
+            </div>
+          </div>
+          
+
+        </div>
+      </div>
+      <div class="card-box">
+        <h3 class="card-title">Recent Lab Results</h3>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group form-focus">
+              <label class="focus-label">Fasting Blood Sugar</label>
+              <input
+                type="text"
+                class="form-control floating"
+                value="{{patient_model.RecentlabhistoryID.Fastingbloodsugar|default:''}}"
+                name="fastingbloodsugar"
+              />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group form-focus">
+              <label class="focus-label">HbA1c</label>
+              <input
+                type="text"
+                class="form-control floating"
+                value="{{patient_model.RecentlabhistoryID.Hba1c|default:''}}"
+                name="hba1c"
+              />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group form-focus">
+              <label class="focus-label">Blood Pressure</label>
+              <input
+                type="text"
+                class="form-control floating"
+                value="{{patient_model.RecentlabhistoryID.Bloodpressure|default:''}}"
+                name="bloodpressure"
+              />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group form-focus">
+              <label class="focus-label">Cholesterol</label>
+              <input
+                type="text"
+                class="form-control floating"
+                value="{{patient_model.RecentlabhistoryID.Cholesterol|default:''}}"
+                name="cholesterol"
+              />
+            </div>
+          </div>
+          
+          
+         
+         
+        </div>
+    
+        
+      </div>
+      <div class="card-box">
+        <h3 class="card-title">Check-Up and Appointments</h3>
+        <div class="row">
+          
+          <div class="col-md-6">
+            <div class="form-group form-focus">
+              <label class="focus-label">Disease</label>
+              
+                <input
+                  class="form-control floating"
+                  type="text"
+                  value="{{patient_model.CheckupandappointmentID.Disease}}"
+                  name="disease"
+                />
+              
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group form-focus">
+              <label class="focus-label">Check-up date</label>
+              <div class="cal-icon">
+                <input
+                  class="form-control floating datetimepicker"
+                  type="text"
+                  value="{{patient_model.CheckupandappointmentID.DateAdded|date:"d-m-Y"}}"
+                  name="checkupdate"
+                />
+              </div>
+            </div>
+          </div>
+         
+        
+          
+         
+        </div>
+    
+        
+      </div>
+      <div class="text-center m-t-20">
+        <button class="btn btn-primary submit-btn" type="submit">
+          Save
+        </button>
+      </div>
+    </form>
+  </div>
+{% endblock content %}
+
+{% block script %}
+
+{% endblock script %}

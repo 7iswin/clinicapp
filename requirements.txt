@@ -1,0 +1,16 @@
+Django
+django-allauth
+django-pandas
+django-jazzmin
+openpyxl
+pandas
+Pillow
+reportlab
+schedule
+tensorflow
+gunicorn
+reportlab
+psycopg2-binary
+django-cors-headers
+scikit-learn
+whitenoise

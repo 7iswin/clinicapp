@@ -1,0 +1,126 @@
+{% extends 'index/home.html' %}
+{% load static %}
+{% block title %}
+
+{% endblock title %}
+{% block style %}
+{% endblock style %}
+{% block content %}
+<div class="content">
+    <div class="buy-form">
+      <div class="row">
+        <div class="col-sm-4 col-3">
+          <h4 class="page-title">Student List</h4>
+        </div>
+        <div class="col-sm-8 col-9 text-end m-b-20">
+          <a
+            href="{% url 'studentrecord:add' %}"
+            class="btn btn-primary float-right btn-rounded"
+            ><i class="fas fa-plus"></i> Add Student</a
+          >
+        </div>
+      </div>
+      <form method="POST">
+        {% csrf_token %}
+      <div class="row filter-row">
+        <div class="col-sm-6 col-md-3">
+          <div class="form-group">
+            <label class="focus-label">Student ID</label>
+            <input name="ID" type="text" class="form-control" />
+          </div>
+        </div>
+        <div class="col-sm-6 col-md-3">
+          <div class="form-group">
+            <label class="focus-label">Student Name</label>
+            <input name="name"type="text" class="form-control" />
+          </div>
+        </div>
+        <div class="col-sm-6 col-md-3">
+          <div class="form-group bg-hover select-focus">
+            <label class="focus-label">Student Course</label>
+            
+            <select name="course" class="select floating">
+              {%for data in patient_course %}
+              <option value="{{data.PatientCOURSE}}" >{{data.PatientCOURSE}}</option>
+             
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+        <div class="col-sm-6 col-md-3">
+          <button href="#" class="btn btn-success btn-block mt-4 mb-1" type="submit">
+            Search
+          </button>
+        </div>
+      </div>
+    </form>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="table-responsive">
+            <table class="table table-striped custom-table">
+              <thead>
+                <tr>
+                  <th>ID#</th>
+                  <th style="min-width: 200px">Student Name</th>
+                  <th>Age</th>
+                  <th>Gender</th>
+                  <th>Year Level</th>
+                  <th style="min-width: 110px">Date added</th>
+                  <th>Course</th>
+                  <th>Disease</th>
+                  {% if request.user.is_staff %}
+                  <th class="text-end">Action</th>
+                  {% endif %}
+                </tr>
+              </thead>
+              <tbody>
+                {% for data in patient_model %}
+                
+                <tr>
+                  <td>{{data.id}}</td>
+                  <td>
+                    <a href = "{% url 'studentrecord:record' %}?id={{data.id}}"><h2>{{data.PatientNAME}}</h2></a>
+                  </td>
+                  <td>{{data.PatientAGE}}</td>
+                  <td>{{data.PatientGender}}</td>
+                  <td>{{data.PatientYEARLEVEL}}</td>
+                  <td>{{data.DateAdded|date:"F, d, Y"}}</td>
+                  <td>{{data.PatientCOURSE}}</td>
+                  <td>{{data.CheckupandappointmentID.Disease}}</td>
+                  {% if request.user.is_staff %}
+                  <td class="text-end">
+                    <div class="dropdown dropdown-action">
+                      <a
+                        href="#"
+                        class="action-icon dropdown-toggle"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                        ><i class="fas fa-ellipsis-v"></i
+                      ></a>
+                      <div class="dropdown-menu dropdown-menu-right">
+                        <a class="dropdown-item" href="{% url 'studentrecord:edit' %}?id={{data.id}}"
+                          ><i class="fas fa-pencil-alt m-r-5"></i> Edit</a
+                        >
+                        <a
+                          class="dropdown-item"
+                          href="{% url 'studentrecord:delete' %}?id={{data.id}}"
+                          
+                          ><i class="fas fa-trash-alt m-r-5"></i>
+                          Delete</a
+                        >
+                      </div>
+                    </div>
+                  </td>
+                  {% endif %}
+              
+                </tr>
+             
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+{% endblock content %}
+{% block script %}{% endblock script %}

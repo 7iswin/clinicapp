@@ -1,0 +1,245 @@
+{% extends 'index/home.html' %}
+{% load static %}
+{% block title %}
+{% endblock title %}
+{% block style %}
+
+{% endblock style %}
+
+{% block content %}
+<div class="content">
+  <div class="row">
+    <div class="col-sm-12">
+      <h4 class="page-title">Edit Profile</h4>
+    </div>
+  </div>
+  <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="card-box">
+      <h3 class="card-title">Basic Informations</h3>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="profile-img-wrap">
+            <img
+              class="inline-block"
+              src="{{ user_model.profileimg.url }}"
+              alt="user"
+            />
+            <div class="fileupload btn">
+              <span class="btn-text">edit</span>
+              <input name="profileimg" class="upload" type="file" />
+            </div>
+          </div>
+          <div class="profile-basic">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group form-focus">
+                  <label class="focus-label">First Name</label>
+                  <input
+                    name="firstname"
+                    type="text"
+                    class="form-control floating"
+                    value="{{ user_model.firstname }}"
+                  />
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group form-focus">
+                  <label class="focus-label">Last Name</label>
+                  <input
+                  name="lastname"
+                    type="text"
+                    class="form-control floating"
+                    value="{{ user_model.lastname }}"
+                  />
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group form-focus">
+                  <label class="focus-label">StaffID</label>
+                  <input
+                  name="userid"
+                    type="text"
+                    class="form-control floating"
+                    value="{{ user_model.userid }}"
+                  />
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group form-focus">
+                  <label class="focus-label">Age</label>
+                  <input
+                  name="age"
+                    type="text"
+                    class="form-control floating"
+                    value="{{ user_model.age }}"
+                  />
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group form-focus">
+                  <label class="focus-label">Birth Date</label>
+                  <div class="cal-icon">
+                    <input
+                     name="bday"
+                      class="form-control floating datetimepicker"
+                      type="text"
+                      value="{{ user_model.bday|date:"m/d/Y" }}"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div
+                  class="form-group bg-hover form-focus select-focus"
+                >
+                  <label class="focus-label">Gendar</label>
+                  <select name="gender" class="select form-control floating">
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-box">
+      <h3 class="card-title">Contact Informations</h3>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group form-focus">
+            <label class="focus-label">Address</label>
+            <input
+            name="address"
+              type="text"
+              class="form-control floating"
+              value="{{ user_model.address }}"
+            />
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group form-focus">
+            <label class="focus-label">City</label>
+            <input
+            name="city"
+              type="text"
+              class="form-control floating"
+              value="{{ user_model.city }}"
+            />
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group form-focus">
+            <label class="focus-label">Country</label>
+            <input
+            name="country"
+              type="text"
+              class="form-control floating"
+              value="{{ user_model.country }}"
+            />
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group form-focus">
+            <label class="focus-label">Pin Code</label>
+            <input
+            name="pincode"
+              type="text"
+              class="form-control floating"
+              value="{{ user_model.pincode }}"
+            />
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group form-focus">
+            <label class="focus-label">Phone Number</label>
+            <input
+            name="phonenumber"
+              type="text"
+              class="form-control floating"
+              value="{{ user_model.phonenumber }}"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="card-box">
+      <h3 class="card-title">Experience Informations</h3>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group form-focus">
+            <label class="focus-label">Company Name</label>
+            <input
+            name="companyname"
+              type="text"
+              class="form-control floating"
+              value="{{ user_model.companyname }}"
+            />
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group form-focus">
+            <label class="focus-label">Location</label>
+            <input
+            name="location"
+              type="text"
+              class="form-control floating"
+              value="{{ user_model.location }}"
+            />
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group form-focus">
+            <label class="focus-label">Job Position</label>
+            <input
+            name="position"
+              type="text"
+              class="form-control floating"
+              value="{{ user_model.position }}"
+            />
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group form-focus">
+            <label class="focus-label">Period From</label>
+            <div class="cal-icon">
+              <input
+              name="periodfrom"
+                type="text"
+                class="form-control floating datetimepicker"
+                value="{{ user_model.periodfrom|date:"m/d/Y" }}"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group form-focus">
+            <label class="focus-label">Period To</label>
+            <div class="cal-icon">
+              <input
+              name="periodto"
+                type="text"
+                class="form-control floating datetimepicker"
+                value="{{ user_model.periodto|date:"m/d/Y" }}"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    
+    </div>
+    <div class="text-center m-t-20">
+      <button class="btn btn-primary submit-btn" type="submit">
+        Save
+      </button>
+    </div>
+  </form>
+</div>
+{% endblock content %}
+
+{% block script %}
+
+{% endblock script %}

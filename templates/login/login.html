@@ -1,0 +1,250 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="icon" type="image/png" href="{% static 'login/images/icons/favicon.ico' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@300&display=swap" rel="stylesheet">
+    <link href="{% static 'login/css/toastr.min.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'login/css/style.css' %}">
+    <title>Login Page</title>
+</head>
+<body>
+<div class="body-container" style=" background-image: url( {% static 'login/images/bg-1.jpg' %} ); ">
+    
+    <div class="container" id="container">
+            <div>
+            <div class="form-container sign-up-container">
+                <form action='' method='POST'>
+                    {% csrf_token %}
+                    <h1>Create Account</h1>
+                    <input type="text" name="username" placeholder="Username" required/>
+                    <input type="email" name="email" placeholder="Email" required/>
+                    <input type="password" name="password1" placeholder="Password" required/>
+                    <input type="password" name="password2" placeholder="Password" required/>
+                    <div class="otp-container">
+                        <p class="otp-text">Please enter the OTP sent to your email.</p>
+                        <div class="otp-input-container">
+                            <input type="text" id="otp" name="otp" required/>
+                            <button type="button" id="send-otp" onclick="startCountdown()">Send OTP</button>
+                        </div>
+                        <p class="otp-countdown" style="display: none;"></p>
+                    </div>
+                    <input type="submit" placeholder="Sign up" />
+                    
+                </form>
+            </div>
+            <div class="form-container sign-in-container">
+                <form action="{% url 'account:login' %}" method="POST">
+                    {% csrf_token %}
+                    <h1>Sign In</h1>
+                    <input type="Username" name="username" placeholder="Username" />
+                    <input type="password" name="password" placeholder="Password" />
+                    {% comment %} <a href="#">Forgot your password?</a> {% endcomment %}
+                    <input type="submit" placeholder="Sign up" />
+                    {% comment %} <div class="thirdparty">
+                    
+                        {% load socialaccount %}   
+                        <a href="#" class="btn-face m-b-20">
+                            <i class="fa fa-facebook-official"></i>
+                            Facebook-+
+                        </a>
+
+                        <a href="{% provider_login_url 'google' %}?next=/" class="btn-google m-b-20">
+                            <img src="{% static 'login/images/icons/icon-google.png' %}" alt="GOOGLE">
+                            Google
+                        </a>
+                    </div> {% endcomment %}
+                </form>
+            </div>
+            </div>
+
+            <div>
+            <div class="overlay-container">
+                <div class="overlay">
+                    <div class="overlay-panel overlay-left">
+                        <h1>Welcome Back!</h1>
+                        <p>
+                            Continue where you start with us
+                        </p>
+                        <div class="btn-grad" id="signIn">Sign In</div>
+                    </div>
+                    <div class="overlay-panel overlay-right">
+                        <h1>Hi! There </h1>
+                        <p>Join Us on discovering the world</p>
+                        <div class="btn-grad" id="signUp">Sign Up</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+    <script type="text/javascript" src="{% static 'login/js/login.js' %}"> </script>
+    <script src="{% static 'login/js/jquery.min.js' %}" ></script>
+    <script src="{% static 'login/js/toastr.min.js' %}" ></script>
+    <script>
+        let countdown;
+    
+        function startCountdown() {
+            const sendOtpButton = document.getElementById('send-otp');
+            const emailInput = document.querySelector('[name="email"]');
+            const email = emailInput.value.trim(); 
+
+            if (!email) {
+                alert('Please enter an email address.'); 
+                return;
+            }
+
+            sendOtpButton.disabled = true;
+            
+            let secondsRemaining = 60; 
+            const countdown = setInterval(function() {
+                if (secondsRemaining <= 0) {
+                    clearInterval(countdown);
+                    sendOtpButton.textContent = 'Send OTP'; 
+                    sendOtpButton.disabled = false; 
+                } else {
+                    sendOtpButton.textContent = `${secondsRemaining} seconds`;
+                    secondsRemaining--;
+                }
+            }, 1000);
+
+            sendOtp(email);
+        }
+        function sendOtp(email) {
+            fetch("{% url 'account:generate_and_send_otp' %}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken'),
+                    
+                },
+                body: JSON.stringify({ email: email })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    function showError() {
+                        toastr.success('Your OTP has already send to your email: %s'.replace('%s', email),"Success",{
+                            "positionClass": "toast-top-full-width",
+                            timeOut: 5000,
+                            "closeButton": true,
+                            "debug": false,
+                            "newestOnTop": true,
+                            "progressBar": true,
+                            "preventDuplicates": true,
+                            "onclick": null,
+                            "showDuration": "300",
+                            "hideDuration": "1000",
+                            "extendedTimeOut": "1000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut",
+                            "tapToDismiss": false
+                        })
+                    }
+                    showError();
+                } else {
+                    function showError() {
+                        toastr.warning('Your Email Address is invalid: %s'.replace('%s', email),"Failed",{
+                            "positionClass": "toast-top-full-width",
+                            timeOut: 5000,
+                            "closeButton": true,
+                            "debug": false,
+                            "newestOnTop": true,
+                            "progressBar": true,
+                            "preventDuplicates": true,
+                            "onclick": null,
+                            "showDuration": "300",
+                            "hideDuration": "1000",
+                            "extendedTimeOut": "1000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut",
+                            "tapToDismiss": false
+                        })
+                    }
+                    showError();
+                }
+            });
+        }
+    
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === `${name}=`) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+    </script>
+    {% for message in messages %}
+        <h5>{{message}}</h5>
+        {% if message.tags == 'error' %}
+            <script>
+                function showError() {
+                    toastr.warning('{{ message }}','{{message.tags}}',{
+                        "positionClass": "toast-top-full-width",
+                        timeOut: 5000,
+                        "closeButton": true,
+                        "debug": false,
+                        "newestOnTop": true,
+                        "progressBar": true,
+                        "preventDuplicates": true,
+                        "onclick": null,
+                        "showDuration": "300",
+                        "hideDuration": "1000",
+                        "extendedTimeOut": "1000",
+                        "showEasing": "swing",
+                        "hideEasing": "linear",
+                        "showMethod": "fadeIn",
+                        "hideMethod": "fadeOut",
+                        "tapToDismiss": false
+                    })
+                }
+                showError();
+            </script>
+     
+        {% else %}
+        <script>
+            function showError() {
+                toastr.success('{{ message }}','{{message.tags}}',{
+                    "positionClass": "toast-top-full-width",
+                    timeOut: 5000,
+                    "closeButton": true,
+                    "debug": false,
+                    "newestOnTop": true,
+                    "progressBar": true,
+                    "preventDuplicates": true,
+                    "onclick": null,
+                    "showDuration": "300",
+                    "hideDuration": "1000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                    "showMethod": "fadeIn",
+                    "hideMethod": "fadeOut",
+                    "tapToDismiss": false
+                })
+            }
+            showError();
+        </script>
+        {% endif%}
+
+    {% endfor%}
+</body>
+</html>

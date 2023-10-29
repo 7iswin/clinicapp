@@ -1,0 +1,123 @@
+{% extends 'index/home.html' %}
+{% load static %}
+{% block title %}
+{% endblock title %}
+{% block style %}
+
+{% endblock style %}
+
+{% block content %}
+<div class="content">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="sell-buy-list settings-navs">
+                <ul>
+                    <li>
+                      <a href="{% url 'account:role_permissions' %}">Roles & Permissions</a>
+                    </li>
+                    </li>
+                  </ul>
+            </div>
+            <div class="setting-form">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="company-setting">
+                            <img src="assets/img/icon/setting-icon-03.svg" class="me-2" alt="">
+                            <div class="setting-title comman-head">
+                                <h3>Roles & Permissions</h3>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                            </div>
+                        </div>
+                        <div class="permission-role">
+                            <ul>
+                                <li>Administrator</li>
+                                <li>Staff</li>
+                                <li>Accontant</li>
+                                <li class="add-roles"><a href="javascript:;">+ Add Roles</a></li>
+                            </ul>
+                        </div>
+                        <div class="setting-notify-blk card">
+                            <h5>Module Access</h5>
+                            <div class="security-group">
+                                <div class="verification-blk lock-clr">
+                                    <div class="security-name-blk">
+                                        <h4>Employee</h4>
+                                        <span class="secure-active">Active</span>
+                                    </div>
+                                    <div class="material-switch security-switch">
+                                        <input id="staff_module" type="checkbox" checked>
+                                        <label for="staff_module" class="badge-active"></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="security-group">
+                                <div class="verification-blk lock-clr">
+                                    <div class="security-name-blk">
+                                        <h4>Holidays</h4>
+                                        <span class="secure-active">Active</span>
+                                    </div>
+                                    <div class="material-switch security-switch">
+                                        <input id="staff_module" type="checkbox">
+                                        <label for="staff_module" class="badge-active"></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="security-group">
+                                <div class="verification-blk lock-clr">
+                                    <div class="security-name-blk">
+                                        <h4>Leave Request</h4>
+                                        <span class="secure-disable">Disabled</span>
+                                    </div>
+                                    <div class="material-switch security-switch">
+                                        <input id="staff_module" type="checkbox" checked>
+                                        <label for="staff_module" class="badge-active"></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="security-group">
+                                <div class="verification-blk lock-clr">
+                                    <div class="security-name-blk">
+                                        <h4>Event</h4>
+                                        <span class="secure-active">Active</span>
+                                    </div>
+                                    <div class="material-switch security-switch">
+                                        <input id="staff_module" type="checkbox">
+                                        <label for="staff_module" class="badge-active"></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="security-group">
+                                <div class="verification-blk lock-clr">
+                                    <div class="security-name-blk">
+                                        <h4>Chat</h4>
+                                        <span class="secure-active">Active</span>
+                                    </div>
+                                    <div class="material-switch security-switch">
+                                        <input id="staff_module" type="checkbox">
+                                        <label for="staff_module" class="badge-active"></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="setting-notify-blk card mb-0">
+                            <h5>Module Permission</h5>
+                            <div class="permission-list">
+                                <ul>
+                                    <li>Employee</li>
+                                    <li>Holidays</li>
+                                    <li>Leave Request</li>
+                                    <li>Events</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block script %}
+
+{% endblock script %}

@@ -1,0 +1,540 @@
+{% extends 'index/home.html' %}
+{% load static %}
+
+
+{% block title %}
+Dashboard
+{% endblock title %}
+{% block style %}
+
+{% endblock style %}
+
+{% block content %}
+<div class="content">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="welcome-header">
+          <div class="row">
+            <div class="col-xl-6 col-lg-5 col-md-5 d-flex align-items-center">
+              <div class="wel-come-name">
+                <h4>Welcome , <span>{{user_model.firstname}}</span></h4>
+              </div>
+            </div>
+            <div class="col-xl-6 col-lg-7 col-md-7">
+              <div class="welcome-wallet">
+                <div class="wallet-list">
+                  <span id="current-time"></span>
+                </div>
+                {% comment %}
+                <div class="bookingrange btn-book ms-2 me-2">
+                  <img
+                    src="{% static 'assets/img/icon/calendar-icon.svg' %}"
+                    alt=""
+                  />
+                  <span></span>
+                </div>
+                {% endcomment %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="dash-widget-blk">
+        <div class="col d-flex align-items-center">
+            <div class="watch-head">
+                <h4>Prediction Cases from {{min_date}} to {{max_date}}</h4>
+            </div>
+        </div>
+        <ul>
+            {% for data in top_disease %}
+            <li>
+                <div class="premium-name-blk title-blue">
+                    <h3>{{data.0}}</h3>
+                    <h3>Montly Prediction</h3>
+                    <h4>Total Cases: {{data.1.count|floatformat:0}}</h4>
+                    {% if data.1.boolean %}
+                    <p>
+                        <i class="fas fa-arrow-up me-1"></i>({{data.1.percentage|default_if_none:"0"|floatformat:2}}%)
+                    </p>
+                    {% else %}
+                    <p class="low-range">
+                        <i class="fas fa-arrow-down me-1"></i>({{data.1.percentage}}%)
+                    </p>
+    
+                    {% endif%}
+                </div>
+                <div class="premium-img"></div>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="buy-form">
+                <div class="border-watch">
+                    <div class="row">
+                        <div class="col d-flex align-items-center">
+                            <div class="watch-head flow-time-blk">
+                                <h4>Overall Cases</h4>
+                            </div>
+                        </div>
+                        <div class="col-auto d-flex">
+                            <div class="bookingrange btn-book me-2">
+                                <span id="overall"></span>
+                            </div>
+                            <!-- <div class="down-range">
+                                <a href="javascript:;"><img src="{% static 'assets/img/icon/down-icon.svg' %}" alt="" /></a>
+                            </div> -->
+                        </div>
+
+                    </div>
+                </div>
+                <div id="chartdiv"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="buy-form">
+                <div class="border-watch">
+                    <div class="row">
+                        <div class="col d-flex align-items-center">
+                            <div class="watch-head">
+                                <h4>Disease Category</h4>
+                            </div>
+                        </div>
+                        <div class="col-auto d-flex">
+                           
+
+          
+    
+                            <ul class="time-variant">
+                                <div class="col-rg-20 d-flex align-items-center">
+                                    <div class="form-group bg-hover date-border">
+                                            {% csrf_token %}
+                                            <select class="form-control select" name="selected_disease" id="diseaseSelect"
+                                                onchange="handleChange()">
+                                                {% for disease in all_disease %}
+                                                <option>{{disease.Disease}}</option>
+    
+                                                {% endfor %}
+                                            </select>
+                                    </div>
+                                </div>
+                                <div class="bookingrange btn-book me-2">
+                                  <span id="diseaseSelectDate"></span>
+                                </div>
+                                <!-- <div class="down-range">
+                                    <a href="javascript:;"><img src="{% static 'assets/img/icon/down-icon.svg' %}"
+                                            alt="" /></a>
+                                </div> -->
+                               
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div id="chartdiv2"></div>
+            </div>
+        </div>
+
+
+        
+        
+    </div>
+    <div class="row">
+        <div class="col-xl-10">
+            <div class="buy-form mb-0">
+                <div class="border-watch">
+                    <div class="row">
+                        <div class="col d-flex align-items-center">
+                          <div class="watch-head">
+                            <h4>Total Cases of the Week</h4>
+                          </div>
+                        </div>
+                        {% comment %}
+                        <div class="col-auto d-flex">
+                          <div class="bookingrange btn-book me-2">
+                            <span></span>
+                          </div>
+                          <div class="down-range">
+                            <a href="javascript:;"
+                              ><img src="{% static 'assets/img/icon/down-icon.svg' %}" alt=""
+                            /></a>
+                          </div>
+                
+                          {% endcomment %}
+                        </div>
+                        <div class="table-responsive">
+                            <table class="datatable table custom-table">
+                                <thead>
+                                    <tr>
+                                      <th>No</th>
+                                      <th>Disease Name</th>
+                                      <th style="min-width: 110px">Total Cases Of The Day</th>
+                                      <th style="min-width: 110px">Total Cases Of The Week</th>
+                                      <th style="min-width: 110px">Total Cases Of The Month</th>
+                                      <th style="min-width: 110px">Total Cases Of The Year</th>
+                                      <th style="min-width: 90px">Weekly Prediction</th>
+                                    </tr>
+                                  </thead>
+
+                                  <tbody>
+                                    {% if patient_count_week|length == 0 %}
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td>No Patient for this week</td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                    {% else%}
+                                        {% for data in patient_count_week %}
+                                        <tr>
+                                        <td>{{ forloop.counter }}</td>
+                                        <td>{{data.Disease}}</td>
+                                        <td>{{data.day_data}}</td>
+                                        <td>{{data.week_data}}</td>
+                                        <td>{{data.month_data}}</td>
+                                        <td>{{data.year_data}}</td>
+                                        <td>
+                                            <p>Total:{{data.forcasted_count}}</p>
+                                            {% if data.is_increasing %}
+                                            <span class="custom-badge status-red">
+                                            <i class="fas fa-arrow-down" aria-hidden="true"></i>
+                                            {{data.percentage|floatformat:2}}%</span
+                                            >
+                                            {% else %}
+                                            <span class="custom-badge status-green"
+                                            ><i class="fas fa-arrow-up" aria-hidden="true"></i>
+                                            {{data.percentage|floatformat:2}}%</span
+                                            >
+
+                                            {% endif %}
+                                        </td>
+                                        </tr>
+                                        {% endfor %} {% endif %}
+                                                                
+                                      
+                                  
+                                        
+                                  </tbody>
+
+                            </table>
+                            
+
+                        </div>
+                </div>
+
+
+            </div>
+          
+        </div>
+        <div class="col-xl-2">
+          <div class="credit-balance-group new-users">
+             
+              <div class="watch-list-blk buy-form">
+                  <div class="row">
+                      <div class="col d-flex align-items-center">
+                          <div class="watch-head">
+                              <h4>Top 10 Disease this month</h4>
+                          </div>
+                      </div>
+                      <div class="col-auto">
+                        <div class="watch-view-all">
+                            <p>Total Cases</p>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="activity-group">
+                    {% for data in Patient_course %}
+                    <div class="activity-awards">
+                        <div class="award-list-outs">
+                            <h5>Disease:{{data.Disease}}</h5 >
+                        </div>
+                        <div class="award-time-list">
+                            <span>{{data.Disease_count}}</span>
+                        </div>
+                    </div>
+                    {%endfor %}
+                  </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-4 d-flex align-items-center">
+                    <div class="credit-balance">
+                        <h4>Total Patient</h4>
+                        <h2>{{total_count}}</h2>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="buy-form-line">
+                        <div id="l-col"></div>
+                    </div>
+                </div>
+            </div>
+          </div>
+    
+    </div>
+    
+    
+
+</div>
+
+{% endblock content %}
+{% block script %}
+<script>
+    var data = [];
+
+function handleChange() {
+  var selectElement = document.getElementById("diseaseSelect");
+  var selectDate = document.getElementById("diseaseSelectDate");
+  var selectedValue = selectElement.value;
+  var formData = new FormData();
+
+  formData.append("selected_disease", selectedValue);
+  formData.append("selected_disease_date", selectDate.textContent);
+  fetch("/update_chart", {
+    method: "POST",
+    body: formData,
+    headers: {
+      "Accept": "application/json"
+    }
+  })
+    .then(function (response) {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error("Form submission failed");
+      }
+    })
+    .then(function (responseData) {
+      if (responseData) {
+        data = []; // Clear the data array before populating it with new data
+
+        for (var i = 0; i < responseData.length; i++) {
+          var responseObject = responseData[i];
+          data.push({
+            date: responseObject.DateAdded,
+            actualdata: responseObject.Actual,
+            predictdata: responseObject.Predict
+          });
+        }
+        displayGraph(); // Call the displayGraph function after updating the data
+      }
+    });
+}
+
+function displayGraph() {
+  if ($("#chartdiv2").length > 0) {
+    var chart1 = am4core.create("chartdiv2", am4charts.XYChart);
+    chart1.data = data;
+    var dateAxis = chart1.xAxes.push(new am4charts.DateAxis());
+    dateAxis.renderer.grid.template.location = 0;
+    dateAxis.renderer.ticks.template.length = 8;
+    dateAxis.renderer.ticks.template.strokeOpacity = 0.1;
+    var valueAxis = chart1.yAxes.push(new am4charts.ValueAxis());
+    valueAxis.tooltip.disabled = true;
+    var series = chart1.series.push(new am4charts.LineSeries());
+    series.dataFields.dateX = "date";
+    series.dataFields.valueY = "actualdata";
+    series.tooltipText = "{valueY.value}";
+    series.name = "Actual";
+    series.sequencedInterpolation = true;
+    series.stroke = am4core.color("#0DBF0A");
+    var valueAxis2 = chart1.yAxes.push(new am4charts.ValueAxis());
+    valueAxis2.tooltip.disabled = true;
+    valueAxis2.renderer.opposite = true;
+    valueAxis2.renderer.grid.template.disabled = true;
+    var series2 = chart1.series.push(new am4charts.LineSeries());
+    series2.dataFields.dateX = "date";
+    series2.dataFields.valueY = "predictdata";
+    series2.yAxis = valueAxis2;
+    series2.tooltipText = "{valueY.value}";
+    series2.name = "Predict";
+    series2.sequencedInterpolation = true;
+    series2.stroke = am4core.color("#FE3F51");
+    series2.tooltip.label.fill = am4core.color("#FE3F51");
+    chart1.cursor = new am4charts.XYCursor();
+    chart1.cursor.xAxis = dateAxis;
+    var scrollbarX = new am4charts.XYChartScrollbar();
+    scrollbarX.series.push(series);
+    chart1.scrollbarX = scrollbarX;
+    chart1.legend = new am4charts.Legend();
+    chart1.legend.parent = chart1.plotContainer;
+    chart1.legend.zIndex = 100;
+    chart1.legend.valueLabels.template.text =
+      "{valueY.value.formatNumber('#.')}";
+  }
+}
+
+// Call handleChange initially with the default select choice
+handleChange();
+setInterval(handleChange, 5000);
+
+// Add an event listener to handle subsequent changes in the select option
+document.getElementById("diseaseSelect").addEventListener("change", handleChange);
+
+    
+</script> 
+<script>
+
+    $(document).ready(function ($){
+        function updateChart() {
+        if ($("#chartdiv").length > 0) {
+            var overalldate = document.getElementById('overall');
+            var data = []
+            var actualDataList = []
+            var formData = new FormData();
+            formData.append('all',overalldate.textContent)
+            formData.append('status',"all")
+            fetch("/update_chart", {
+                method: "POST",
+                body: formData,
+                headers: {
+                "Accept": "application/json"
+                }
+            })
+                .then(function (response) {
+                if (response.ok) {
+            
+                    return response.json();
+                } else {
+            
+                    throw new Error("Form submission failed");
+                }
+                })
+                .then(function (responseData) {
+                if (responseData) {
+                    console.log(responseData)
+                    for (var i = 0; i < responseData.length; i++) {
+                    var responseObject = responseData[i];
+                    console.log(data)
+                    data.push({
+                        date: responseObject.DateAdded,
+                        prediction: responseObject.Disease_count,
+                        actual:0,
+                        history: 0,
+                        test: 0,
+                        disease:responseObject.Disease_count,
+                    });
+                    actualDataList.push(responseObject.Disease_count)
+                    }
+                var chart = am4core.create("chartdiv", am4charts.XYChart);
+                chart.data = data
+                
+                chart.paddingRight = 20;
+                var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+                dateAxis.title.text = "Date";
+                dateAxis.renderer.grid.template.location = 0;
+                dateAxis.skipEmptyPeriods = true;
+                var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+            
+                valueAxis.title.text = "Disease";
+                valueAxis.tooltip.disabled = true;
+    
+                    
+                actualDataList.sort(function(a, b) {
+                        return a - b;
+                });
+                var maxActualData = actualDataList[actualDataList.length - 1];
+                valueAxis.max = Math.ceil(maxActualData / 10) * 10;
+                var series = chart.series.push(new am4charts.CandlestickSeries());
+                series.dataFields.dateX = "date";
+                series.dataFields.valueY = "prediction";
+                series.dataFields.openValueY = "actual";
+                series.dataFields.lowValueY = "history";
+                series.dataFields.highValueY = "test";
+                series.dataFields.name = "disease";
+                series.tooltipText =
+                    "Disease:{name}";
+                series.riseFromOpenState.properties.fill = am4core.color("green");
+                series.dropFromOpenState.properties.fill = am4core.color("black");
+                series.riseFromOpenState.properties.stroke = am4core.color("green");
+                series.dropFromOpenState.properties.stroke = am4core.color("black");
+                series.riseFromPreviousState.properties.fillOpacity = 1;
+                series.dropFromPreviousState.properties.fillOpacity = 0;
+                chart.cursor = new am4charts.XYCursor();
+                chart.cursor.behavior = "panX";
+                var lineSeries = chart.series.push(new am4charts.LineSeries());
+                lineSeries.dataFields.dateX = "date";
+                lineSeries.dataFields.valueY = "prediction";
+                lineSeries.defaultState.properties.visible = false;
+                lineSeries.stroke = am4core.color("black");
+                lineSeries.strokeWidth = 2; 
+                lineSeries.strokeOpacity = 1;
+                var scrollbarX = new am4charts.XYChartScrollbar();
+                scrollbarX.series.push(lineSeries);
+                chart.scrollbarX = scrollbarX;
+                
+                }
+                });
+                
+                
+                
+            
+            
+        
+        }
+    }
+    updateChart();
+    setInterval(updateChart, 5000);
+      });
+      if ($("#l-col").length > 0) {
+        var sCol = {
+          chart: { height: 150, type: "bar", toolbar: { show: false } },
+          plotOptions: {
+            bar: { horizontal: false, columnWidth: "30%", endingShape: "rounded" },
+          },
+          dataLabels: { enabled: false },
+          stroke: { show: true, width: 1 },
+          series: [
+          { color: "#0DBF0A", data: [
+              {% for data in all_courses %}
+               {{data.patient_count}},
+              {% endfor %}
+          ] },
+        ],
+        xaxis: {
+          categories: [
+          {% for data in all_courses %}
+          "{{ data.date_added|date:"F j" }}",
+              {% endfor %}
+          ],
+        },
+          fill: { opacity: 1 },
+          tooltip: {
+            y: {
+              formatter: function (val) {
+                return "Total Patient: " + val ;
+              },
+            },
+          },
+        };
+        var chart = new ApexCharts(document.querySelector("#l-col"), sCol);
+        chart.render();
+      }
+      
+</script>  
+<script>
+    // Get the current time element
+    const currentTime = document.getElementById('current-time');
+  
+    // Update the current time every second
+    setInterval(() => {
+      // Get the current date and time
+      const now = new Date();
+  
+      // Format the current date and time as a string
+      const dateString = now.toLocaleDateString();
+      const timeString = now.toLocaleTimeString();
+  
+      // Set the current time element's text to the formatted string
+      currentTime.textContent = `${dateString} ${timeString}`;
+    }, 1000);
+  </script>
+{% endblock script %}
