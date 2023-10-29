@@ -127,23 +127,23 @@ def index(request):
     end_of_last_month_aware = make_aware(end_of_last_month.replace(hour=0, minute=0, second=0))
     start_of_last_month_aware = make_aware(start_of_last_month.replace(day=1, hour=23, minute=59, second=59))
     start_of_month = today.replace(day=1)
-
     disease_counts = Checkupandappointment.objects.filter(DateAdded__gte=start_of_month).values('Disease').annotate(Disease_count=Count('Disease'))\
                     .order_by('-Disease_count')[:10]
     
     dataset = []
     for entry in disease_counts:
         data = {}
-        top_patient_courses = Patientinformation.objects.filter(DateAdded__gte=start_of_month,CheckupandappointmentID__Disease=entry['Disease']).values('PatientCOURSE')\
-                            .annotate(Patient_count=Count('PatientCOURSE')).order_by('-Patient_count').first()
-    
+        data= {}
+        top_patient_courses = Patientinformation.objects.filter(CheckupandappointmentID__Disease=entry['Disease']).values('PatientCOURSE')\
+                            .annotate(Patient_count=Count('PatientCOURSE')).order_by('-PatientCOURSE').first()
+        
         data['Disease']= entry['Disease']
         data['Disease_count']= entry['Disease_count']
         if top_patient_courses is not None:
             data['PatientCOURSE'] = top_patient_courses.get('PatientCOURSE', "No Patient")
             data['Patient_count'] = top_patient_courses.get('Patient_count', 0) 
         else:
-            data['PatientCOURSE'] = "No Patient"
+            data['PatientCOURSE'] = "Unidentified"
             data['Patient_count'] = 0
        
         dataset.append(data)
@@ -290,12 +290,12 @@ def ExcelFileUpload(request):
             with open(os.path.join(fileupload, filename), 'rb+') as destination:
                 workbook = openpyxl.load_workbook(destination)
                 worksheet = workbook.active
-                
-                for row in worksheet.iter_rows(min_row=2, values_only=False): 
+
+                for row in worksheet.iter_rows(min_row=2, values_only=False):
                     # save the date into the database
                     ContactInformation_model = ContactInformation.objects.create(
                         Address=row[6].value if row[6].value else None,
-                        State=row[7].value if row[7].value else None,   
+                        State=row[7].value if row[7].value else None,
                         Country=row[8].value if row[8].value else None,
                         Pincode=int(row[9].value) if row[9].value else None,
                         Phonenumber=row[10].value if row[10].value else None,
@@ -315,7 +315,7 @@ def ExcelFileUpload(request):
                         Hba1c=row[13].value if row[13].value else None,
                         Cholesterol=row[14].value if row[14].value else None,
                     ).save()
-                    
+
                     Checkupandappointment_model = Checkupandappointment.objects.create(
                         Disease=row[19].value if row[19].value else None,
                         DateAdded=row[20].value if row[20].value else None,
@@ -362,5 +362,3 @@ def ExcelFileUpload(request):
     else:
         form = ExcelFileform()
         return render(request, 'index/dashboard.html', {'form': form})
-
-
