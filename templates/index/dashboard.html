@@ -521,20 +521,13 @@ document.getElementById("diseaseSelect").addEventListener("change", handleChange
       
 </script>  
 <script>
-    // Get the current time element
     const currentTime = document.getElementById('current-time');
-  
-    // Update the current time every second
+    let currentDate = new Date();
+    currentDate.setDate(currentDate.getDate() + 30);
     setInterval(() => {
-      // Get the current date and time
-      const now = new Date();
-  
-      // Format the current date and time as a string
-      const dateString = now.toLocaleDateString();
-      const timeString = now.toLocaleTimeString();
-  
-      // Set the current time element's text to the formatted string
+      const dateString = currentDate.toLocaleDateString();
+      const timeString = currentDate.toLocaleTimeString();
       currentTime.textContent = `${dateString} ${timeString}`;
+      currentDate.setSeconds(currentDate.getSeconds() + 1);
     }, 1000);
-  </script>
-{% endblock script %}
+</script>
