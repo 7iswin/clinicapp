@@ -522,12 +522,11 @@ document.getElementById("diseaseSelect").addEventListener("change", handleChange
 </script>  
 <script>
     const currentTime = document.getElementById('current-time');
-    let currentDate = new Date();
-    currentDate.setDate(currentDate.getDate() + 30);
     setInterval(() => {
-      const dateString = currentDate.toLocaleDateString();
-      const timeString = currentDate.toLocaleTimeString();
+      const now = new Date();
+      const dateString = now.toLocaleDateString();
+      const timeString = now.toLocaleTimeString();
+  
       currentTime.textContent = `${dateString} ${timeString}`;
-      currentDate.setSeconds(currentDate.getSeconds() + 1);
     }, 1000);
-</script>
+  </script>
