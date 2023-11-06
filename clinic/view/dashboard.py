@@ -227,7 +227,6 @@ def update_forecast(request):
     if settings.FILE_UPLOAD_IN_PROGRESS:
         def run(predictEveryday=False):
             current_date = datetime.now().date()
-            print(current_date)
             window_start = current_date - timedelta(days=365 * 2)
             all_disease = Checkupandappointment.objects.values('Disease').distinct().order_by('Disease')
 
@@ -248,7 +247,6 @@ def update_forecast(request):
                 return HttpResponse('Could not train the data because it is empty')
             
         date_today = datetime.today().date() + timedelta(days=29)
-        print(date_today)
         forecast_date = Forecast.objects.all().order_by('DateAdded').values('DateAdded').last()
         check_model = Checkupandappointment.objects.all().first()
         
@@ -259,8 +257,7 @@ def update_forecast(request):
             run()
             return HttpResponse('Update complete')
         elif date_today > forecast_date['DateAdded']:
-            print(date_today > forecast_date['DateAdded'])
-            print(date_today,forecast_date['DateAdded'])
+    
             print('Have forecast data')
             run(predictEveryday=True)
             return HttpResponse('Update complete')
