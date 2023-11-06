@@ -17,13 +17,14 @@ from django.db.models import Q
 from sklearn.preprocessing import MinMaxScaler
 class RNNModel:
 
-    def __init__(self,model,*fieldnames,target=None,name='',startdate=None,enddate=None):
+    def __init__(self,model,*fieldnames,target=None,name='',startdate=None,enddate=None,predictEveryday=False):
         self.name = name
         self.model = model
         self.target = target
         self.fieldnames = fieldnames
         self.startdate = startdate
         self.enddate = enddate
+        self.predictEveryday = predictEveryday
         self.clean_data = self.clean_data_filter()
         self.X = None
         self.train_predictions = None
@@ -87,8 +88,8 @@ class RNNModel:
 
     def train(self):
         self.X = self.clean_data[self.target+'_count'].values
-        self.X_train = self.X[:-29]
-        self.X_test = self.X[-29:]
+        self.X_train = self.X[:-30]
+        self.X_test = self.X[-30:]
         self.y_train =  self.X_train[1:]
         self.X_train =  self.X_train[:-1]
         self.y_test = self.X_test[1:]
@@ -122,11 +123,18 @@ class RNNModel:
         forecast_df = pd.DataFrame({f'{date_columns[0]}': forecast_dates, f'{self.target}': \
                                   self.name,
                                f'{self.target}_count': rounded_predictions.flatten() })
-    
-        for forecast in forecast_df.to_dict(orient='records'):
-            
+        if self.predictEveryday:
+            last_datetime = forecast_df.iloc[-1].to_dict()
             forecast_model = Forecast.objects.create(
-                Disease = forecast['Disease'],
-                Disease_count = forecast['Disease_count'],
-                DateAdded = forecast['DateAdded'],
+                Disease = last_datetime['Disease'],
+                Disease_count = last_datetime['Disease_count'],
+                DateAdded = last_datetime['DateAdded'],
             )
+        else:
+            for forecast in forecast_df.to_dict(orient='records'):
+                
+                forecast_model = Forecast.objects.create(
+                    Disease = forecast['Disease'],
+                    Disease_count = forecast['Disease_count'],
+                    DateAdded = forecast['DateAdded'],
+                )
