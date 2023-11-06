@@ -225,8 +225,9 @@ def update_chart(request):
 
 def update_forecast(request):   
     if settings.FILE_UPLOAD_IN_PROGRESS:
-        def run():
+        def run(predictEveryday=False):
             current_date = datetime.now().date()
+            print(current_date)
             window_start = current_date - timedelta(days=365 * 2)
             all_disease = Checkupandappointment.objects.values('Disease').distinct().order_by('Disease')
 
@@ -237,31 +238,35 @@ def update_forecast(request):
                     disease_data = Checkupandappointment.objects.filter(
                         Q(Disease=disease_name) & Q(DateAdded__range=[window_start, current_date])
                     )
-                    rrn = RNNModel(disease_data, ['DateAdded', 'Disease'], target='Disease', name=disease_name,startdate=window_start,enddate=current_date)
-                    rrn.train()
-                    prediction = rrn.predict()
+                    try:
+                        rrn = RNNModel(disease_data, ['DateAdded', 'Disease'], target='Disease', name=disease_name,startdate=window_start,enddate=current_date,predictEveryday=predictEveryday)
+                        rrn.train()
+                        prediction = rrn.predict()
+                    except Exception as e:
+                        print("Error:",e)
             else:
                 return HttpResponse('Could not train the data because it is empty')
             
-        date_today = datetime.today().date()
+        date_today = datetime.today().date() + timedelta(days=29)
+        print(date_today)
         forecast_date = Forecast.objects.all().order_by('DateAdded').values('DateAdded').last()
         check_model = Checkupandappointment.objects.all().first()
-
+        
         if check_model is None:
             return JsonResponse({'message': 'No data to forecast'})
         elif forecast_date is None and check_model:
             print('No data found for forecasting')
             run()
             return HttpResponse('Update complete')
-        elif date_today == forecast_date['DateAdded']:
+        elif date_today > forecast_date['DateAdded']:
+            print(date_today > forecast_date['DateAdded'])
+            print(date_today,forecast_date['DateAdded'])
             print('Have forecast data')
-            run()
+            run(predictEveryday=True)
             return HttpResponse('Update complete')
         else:
             print('Waiting for the Schedule...........')
             return JsonResponse({'message': 'Waiting for the Schedule...........'})
-    else:
-        return HttpResponse('Update complete')
 
 @login_required(login_url='/account/')
 def ExcelFileUpload(request):
