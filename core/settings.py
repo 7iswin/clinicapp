@@ -78,6 +78,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_auto_logout.middleware.auto_logout',
 ]
 CSRF_TRUSTED_ORIGINS = [
     "https://web-production-aec2.up.railway.app",
@@ -177,7 +178,10 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend'
 )
-
+AUTO_LOGOUT = {"IDLE_TIME":600,
+            'REDIRECT_TO_LOGIN_IMMEDIATELY': True,
+            'MESSAGE': 'The session has expired. Please login again to continue.',
+               }
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
