@@ -14,3 +14,4 @@ psycopg2-binary
 django-cors-headers
 scikit-learn
 whitenoise
+django-auto-logout
