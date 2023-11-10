@@ -11,8 +11,11 @@ import time
 import json
 from django.conf import settings
 from django.contrib.auth import update_session_auth_hash
+from django.core.cache import cache
+from datetime import timezone, datetime, timedelta
 otp_store = {}
-
+MAX_LOGIN_ATTEMPTS = 3
+LOCKOUT_TIME_PERIOD = 1
 def generate_and_send_otp(request):
 
     if request.method == 'POST':
@@ -87,16 +90,42 @@ def login(request):
         username = request.POST['username']
         password = request.POST['password']
         user = auth.authenticate(username=username, password=password)
-
-        if user is not None :
+        attempt = request.session.get('login_attempt_count', MAX_LOGIN_ATTEMPTS)
+        lockout_time = request.session.get('lockout_time', None)
+        current_time = datetime.now()
+        if user is not None and attempt > 0:
             if user.is_active:
                 auth.login(request, user)
-                messages.success(request, 'Logging your account')
+                request.session['login_attempt_count'] = MAX_LOGIN_ATTEMPTS
+                request.session.pop('lockout_time', None) 
+                messages.success(request, 'Logging into your account')
                 return redirect(reverse('dashboard:index'))
-
         else:
-            messages.info(request, 'Username and Password do not match! or Your account is not active. Please contact the administrator.')
-            return redirect(reverse('account:index'))
+            if attempt > 0:
+                attempt -= 1
+                messages.error(request, 'Username and Password do not match! or Your account is not active. Please contact the administrator.')
+                messages.error(request, f'You have {attempt} attempt(s) remaining.')
+                request.session['login_attempt_count'] = attempt
+                if attempt == 0:
+                    lockout_time = current_time + timedelta(hours=LOCKOUT_TIME_PERIOD)
+                    remaining_time = lockout_time.ctime()
+
+                    request.session['lockout_time'] = lockout_time.isoformat()
+                   
+                    messages.error(request, f'Account is locked due to too many login attempts. Please try again later. Lockout time: {remaining_time}')
+                    return redirect(reverse('account:index'))
+                return redirect(reverse('account:index'))
+            else:
+                remaining_time = datetime.fromisoformat(lockout_time) - current_time
+                print(datetime.fromisoformat(lockout_time),current_time)
+                if  datetime.fromisoformat(lockout_time) <= current_time:
+                    request.session['login_attempt_count'] = MAX_LOGIN_ATTEMPTS
+                    request.session.pop('lockout_time', None) 
+                    messages.error(request, 'Username and Password do not match! or Your account is not active. Please contact the administrator.')
+                    return redirect(reverse('account:index'))
+                    
+                messages.error(request, f'Account is locked due to too many login attempts. Please try again later. Remaining time: {remaining_time}')
+                return redirect(reverse('account:index'))
 
     else:
         return redirect(reverse('account:index'))
