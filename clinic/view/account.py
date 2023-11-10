@@ -83,6 +83,7 @@ def index(request):
             messages.error(request, 'OTP not found.')
             return redirect(reverse('account:index'))
     
+
     else:
         return render(request, 'login/login.html')
 def login(request):
@@ -158,7 +159,7 @@ def edit_profile(request):
         lastname = request.POST['lastname']
         gender = request.POST['gender']
         profileimg = request.FILES.get('profileimg')
-        bday = datetime.datetime.strptime(request.POST['bday'], '%d-%m-%Y').strftime('%Y-%m-%d') if request.POST.get('bday') else datetime.date.today()
+        bday = datetime.strptime(request.POST['bday'], '%d-%m-%Y').strftime('%Y-%m-%d') if request.POST.get('bday') else datetime.date.today()
         address = request.POST['address']
         country = request.POST['country']
         pincode = request.POST['pincode']
@@ -169,8 +170,8 @@ def edit_profile(request):
         userid = request.POST['userid']
         age = request.POST['age']
         companyname = request.POST['companyname']
-        periodfrom = datetime.datetime.strptime(request.POST['periodfrom'], '%d-%m-%Y').strftime('%Y-%m-%d') if request.POST.get('periodfrom') else datetime.date.today()
-        periodto =  datetime.datetime.strptime(request.POST['periodto'], '%d-%m-%Y').strftime('%Y-%m-%d') if request.POST.get('periodto') else datetime.date.today()
+        periodfrom = datetime.strptime(request.POST['periodfrom'], '%d-%m-%Y').strftime('%Y-%m-%d') if request.POST.get('periodfrom') else datetime.date.today()
+        periodto =  datetime.strptime(request.POST['periodto'], '%d-%m-%Y').strftime('%Y-%m-%d') if request.POST.get('periodto') else datetime.date.today()
        
         account_model.firstname = firstname
         account_model.lastname = lastname
@@ -188,7 +189,7 @@ def edit_profile(request):
         account_model.periodto = periodto
         account_model.userid = userid
         account_model.age = age
-        account_model.profileimg = profileimg
+        account_model.profileimg = profileimg if profileimg else account_model.profileimg
         account_model.save()
     
 
