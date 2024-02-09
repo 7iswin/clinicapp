@@ -191,13 +191,13 @@ LOGOUT_REDIRECT_URL = '/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-EMAIL_USER = 'olfuclinicqc@gmail.com'
-EMAIL_PASS = 'password-_-secret'
+EMAIL_USER = ''
+EMAIL_PASS = ''
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'olfuclinicqc@gmail.com'
-EMAIL_HOST_PASSWORD = 'mpyq rlkf ljje jsrb'
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
 FILE_UPLOAD_IN_PROGRESS = True
